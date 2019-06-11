@@ -14,3 +14,6 @@ black = {version = "^18.3-alpha.0",allows-prereleases = true}
 [build-system]
 requires = ["poetry>=0.12"]
 build-backend = "poetry.masonry.api"
+
+[tool.poetry.scripts]
+git-rewrite = 'git_rewrite:cli'
