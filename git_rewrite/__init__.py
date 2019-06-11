@@ -113,7 +113,6 @@ class Commit:
             shlex.split(cmd), check=True, env=self.get_env(), capture_output=True
         )
         cmd = f"git commit --amend --author '{self.author}' --date '{self.author_date}' --no-edit"
-        print(cmd)
         subprocess.run(
             shlex.split(cmd), check=True, env=self.get_env(), capture_output=True
         )
