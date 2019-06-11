@@ -50,7 +50,7 @@ The recommended installation method is [pipx](https://github.com/cs01/pipx).  Mo
 specifically, you can install `git-rewrite` for your user with:
 
 ```
-pipx install git-rewrite
+pipx install --spec https://github.com/pmav99/git-rewrite/archive/master.zip git-rewrite
 ```
 
 The above command will create a virtual environment in `~/.local/pipx/venvs/git-rewrite`
