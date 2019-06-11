@@ -12,7 +12,7 @@ Supported fields:
 - `COMMITTER_EMAIL`
 - `COMMITTER_DATE`
 
-## Commands
+## Quickstart
 
 The script has two subcommands:
 
@@ -24,6 +24,37 @@ The `dump` step saves the commit data of the current history to a JSON file.
 You are supposed to manually edit the file and make any changes you need (e.g. using `sed`).
 
 After you are done, you just `apply` the changes to the repo.
+
+
+## Installation
+
+### Dependencies
+
+Python 3.7+
+
+There are no 3rd party dependencies.
+
+### just get the script
+
+You can use the script without installing with:
+
+```
+wget https://raw.githubusercontent.com/pmav99/git-rewrite/master/git_rewrite/__init__.py
+-O git-rewrite
+chmod +x git-rewrite
+```
+
+### `pipx`
+
+The recommended installation method is [pipx](https://github.com/cs01/pipx).  More
+specifically, you can install `git-rewrite` for your user with:
+
+```
+pipx install git-rewrite
+```
+
+The above command will create a virtual environment in `~/.local/pipx/venvs/git-rewrite`
+and add the `git-rewrite` script in `~/.local/bin`.
 
 ## How the `dump` works
 
