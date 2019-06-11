@@ -103,16 +103,13 @@ class Commit:
         }
         return env
 
-    @property
-    def author(self):
-        return f"{self.author_name} <{self.author_email}>"
-
     def cherry_pick(self):
         cmd = f"git cherry-pick {self.commit_hash}"
         subprocess.run(
             shlex.split(cmd), check=True, env=self.get_env(), capture_output=True
         )
-        cmd = f"git commit --amend --author '{self.author}' --date '{self.author_date}' --no-edit"
+        author = f"{self.author_name} <{self.author_email}>"
+        cmd = f"git commit --amend --author '{author}' --date '{self.author_date}' --no-edit"
         subprocess.run(
             shlex.split(cmd), check=True, env=self.get_env(), capture_output=True
         )
