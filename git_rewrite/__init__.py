@@ -154,31 +154,12 @@ class History:
             commit.cherry_pick()
 
 
-def test_idempotency():
-    history = History.since_hash("a84477f")
-    history.dump()
-    loaded_history = History.from_file()
-    assert loaded_history == history
-    loaded_history.rewrite()
-    reloaded_history = History.from_file()
-    assert loaded_history == reloaded_history
-
-
-# loaded_history = History.from_file()
-# loaded_history.rewrite()
-
-# test_idempotency()
-
-# h = History.since_hash("a84477f")
-
-
 def get_parser():
     parser = argparse.ArgumentParser(prog="git-rewrite")
     subparsers = parser.add_subparsers(
         dest="mode", title="subcommands", help="sub-command help"
     )
 
-    # create the parser for the "a" command
     dump = subparsers.add_parser("dump", help="Dump commit data to a JSON file")
     dump.add_argument("root_hash", type=str, help="The hash of the root commit")
     dump.add_argument(
@@ -189,7 +170,6 @@ def get_parser():
         help="The path of the output file",
     )
 
-    # create the parser for the "b" command
     apply = subparsers.add_parser("apply", help="Apply commit data from a JSON file")
     apply.add_argument(
         "-i",
