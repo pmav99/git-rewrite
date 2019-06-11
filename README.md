@@ -46,7 +46,7 @@ chmod +x git-rewrite
 
 ### `pipx`
 
-The recommended installation method is [pipx](https://github.com/cs01/pipx).  More
+The recommended installation method is [pipx](https://github.com/pipxproject/pipx).  More
 specifically, you can install `git-rewrite` for your user with:
 
 ```
