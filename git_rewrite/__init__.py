@@ -103,7 +103,7 @@ class Commit:
         }
         return env
 
-    def cherry_pick(self):
+    def rewrite(self):
         cmd = f"git cherry-pick {self.commit_hash}"
         subprocess.run(
             shlex.split(cmd), check=True, env=self.get_env(), capture_output=True
@@ -149,7 +149,7 @@ class History:
         cmd = f"git checkout -b {branch_name} {self.root_hash}"
         subprocess.run(shlex.split(cmd), check=True)
         for commit in self.commits:
-            commit.cherry_pick()
+            commit.rewrite()
 
 
 def get_parser():
