@@ -145,7 +145,8 @@ class History:
             json.dump(dataclasses.asdict(self), fd, indent=2)
 
     def rewrite(self) -> None:
-        cmd = f"git checkout -b rewrite_{random.randint(1, 9999):04d} {self.root_hash}"
+        branch_name = f"rewrite_{random.randint(1, 9999):04d}"
+        cmd = f"git checkout -b {branch_name} {self.root_hash}"
         subprocess.run(shlex.split(cmd), check=True)
         for commit in self.commits:
             commit.cherry_pick()
