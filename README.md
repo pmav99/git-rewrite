@@ -25,7 +25,6 @@ You are supposed to manually edit the file and make any changes you need (e.g. u
 
 After you are done, you just `apply` the changes to the repo.
 
-
 ## Installation
 
 ### Dependencies
@@ -66,8 +65,10 @@ The `dump` script
 git rev-list --ancestry-path a84477f..HEAD
 ```
 
-2. parses the commit data of each commmit using `git show --format=fuller` and saving
-   them to a JSON file. E.g.:
+2. parses the commit data of each commit using `git show --format=fuller` and saves them
+   to a JSON file.
+
+The end result is something like this:
 
 ``` JSON
 
@@ -82,15 +83,6 @@ git rev-list --ancestry-path a84477f..HEAD
       "committer_name": "john Doe",
       "committer_email": "john_doe@gmail.com",
       "committer_date": "Thu Jun 6 15:53:56 2019 +0300"
-    },
-    {
-      "commit_hash": "5e185576258e52cc24c8e385730de99d31f85fcb",
-      "author_name": "John Doe",
-      "author_email": "john_doe@gmail.com",
-      "author_date": "Thu Jun 6 18:03:37 2019 +0300",
-      "committer_name": "John Doe",
-      "committer_email": "john_doe@gmail.com",
-      "committer_date": "Thu Jun 6 18:03:37 2019 +0300"
     },
     {
       "commit_hash": "4bf077761d21090b46f178b5da534fb9a9da0ca9",
@@ -108,7 +100,10 @@ git rev-list --ancestry-path a84477f..HEAD
 
 ## How the `apply` works
 
-1. First we checkout the root commit and we create a new branch with a random name
+1. the script checkouts the root commit and creates a new branch with a random name.
 2. For each commit in the JSON file the script runs:
-  1. `git cherry-pick` it in order to change the COMMITTER data
-  2. `git commit --amend --author <...> --date <...>` in order to change the AUTHOR data
+
+    1. `git cherry-pick` it in order to bring the changeset into the new branch and change
+    the `COMMITTER` data.
+    2. `git commit --amend --author <...> --date <...>` in order to update the `AUTHOR`
+    data.
