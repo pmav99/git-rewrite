@@ -13,6 +13,8 @@ import subprocess
 import sys
 import typing
 
+__version__ = "0.1.0"
+
 
 def run(cmd, **kwargs):
     defaults = dict(
@@ -147,6 +149,7 @@ class History:
         return history
 
     def dump(self, filename: str = "history.json") -> None:
+        # XXX should we use "x" here?
         with open(filename, "w") as fd:
             json.dump(dataclasses.asdict(self), fd, indent=2)
 
