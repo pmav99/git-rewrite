@@ -1,0 +1,39 @@
+# https://aka.ms/yaml
+---
+
+trigger:
+  branches:
+    include: [master, test-me-*]
+  tags:
+    include: ['*']
+
+jobs:
+  - job: 'Test'
+    pool:
+      vmImage: 'ubuntu-16.04'
+    strategy:
+      matrix:
+        Python36:
+          python.version: '3.6'
+        Python37:
+          python.version: '3.7'
+      maxParallel: 3
+
+    steps:
+      - task: UsePythonVersion@0
+        inputs:
+          versionSpec: '$(python.version)'
+          architecture: 'x64'
+
+      - script: |
+          pip install poetry
+          poetry install
+        displayName: 'Install dependencies'
+
+      - script: |
+          poetry run prospector git_rewrite.py
+        displayName: 'Run lint tests'
+
+      - script: |
+          poetry run pytest tests
+        displayName: 'Run tests'
