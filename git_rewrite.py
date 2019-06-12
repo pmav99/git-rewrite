@@ -150,8 +150,9 @@ class History:
         with open(filename, "w") as fd:
             json.dump(dataclasses.asdict(self), fd, indent=2)
 
-    def rewrite(self) -> None:
-        branch_name = f"rewrite_{random.randint(1, 9999):04d}"
+    def rewrite(self, branch_name=None) -> None:
+        if branch_name is None:
+            branch_name = f"rewrite_{random.randint(1, 9999):04d}"
         cmd = f"git checkout -b {branch_name} {self.root_hash}"
         run(cmd)
         for commit in self.commits:
@@ -182,6 +183,13 @@ def get_parser():
         default="history.json",
         help="The path of the input file",
     )
+    apply.add_argument(
+        "-b",
+        "--branch",
+        type=str,
+        default=None,
+        help="The name of the branch that will be created",
+    )
 
     return parser
 
@@ -193,7 +201,7 @@ def dump(args):
 
 def apply(args):
     history = History.from_file(args.input)
-    history.rewrite()
+    history.rewrite(branch_name=args.branch)
 
 
 def cli():
