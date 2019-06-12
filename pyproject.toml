@@ -11,6 +11,7 @@ dataclasses = { version = "^0.6", python = "~3.6" }
 [tool.poetry.dev-dependencies]
 pre-commit = "^1.17"
 black = {version = "^18.3-alpha.0",allows-prereleases = true}
+pytest = "^4.6"
 
 [tool.poetry.scripts]
 git-rewrite = 'git_rewrite:cli'
