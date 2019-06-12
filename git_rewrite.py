@@ -13,7 +13,7 @@ import subprocess
 import sys
 import typing
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 
 
 def run(cmd, **kwargs):
