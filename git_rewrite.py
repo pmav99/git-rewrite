@@ -32,7 +32,7 @@ def parse_name(git_line: str) -> str:
     Return the author/committer name from git show output
 
         >>> parse_name('Author:     John Doe <JohnDoe@email.com>')
-        >>> 'John Doe'
+        'John Doe'
 
     """
     data = git_line.split(":")[1]
@@ -45,7 +45,7 @@ def parse_email(git_line: str) -> str:
     Return the author/committer email from git show output
 
         >>> parse_email('Author:     John Doe <JohnDoe@email.com>')
-        >>> 'JohnDoe@email.com'
+        'JohnDoe@email.com'
 
     """
     data = git_line.split(":")[1]
@@ -58,7 +58,7 @@ def parse_date(git_line: str):
     Return the author/committer date from git show output
 
         >>> parse_date('AuthorDate: Thu Jun 6 14:31:55 2019 +0300')
-        >>> 'Thu Jun 6 14:31:55 2019 +0300'
+        'Thu Jun 6 14:31:55 2019 +0300'
 
     """
     date = git_line.split(":", 1)[1].strip()
