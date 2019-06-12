@@ -11,8 +11,23 @@ A script that helps you rewrite git history (but doesn't do it for you!)
 
 ## Introduction
 
-Manually editing AUTHOR and COMMITTER data can be a pain. This script tries to make the
-process somewhat easier.
+Editing `GIT_AUTHOR` and `GIT_COMMITTER` data for multiple commits can be a pain.
+Editing dates even more so.
+
+This script tries to make the process somewhat easier. It works by creating a new branch,
+applying the changes there and letting the user to actually decide if he wants to keep
+the branch or throw it away.
+
+The supported fields are:
+
+- `AUTHOR_NAME`
+- `AUTHOR_EMAIL`
+- `AUTHOR_DATE`
+- `COMMITTER_NAME`
+- `COMMITTER_EMAIL`
+- `COMMITTER_DATE`
+
+## Example
 
 Let's assume that we have the following repo and that we want to change the AUTHOR data
 for commits `C` and `D`
@@ -46,16 +61,8 @@ history with e.g.:
 ```
 git checkout original-branch
 git reset --hard new-branch
+git push --force
 ```
-
-### Supported fields
-
-- `AUTHOR_NAME`
-- `AUTHOR_EMAIL`
-- `AUTHOR_DATE`
-- `COMMITTER_NAME`
-- `COMMITTER_EMAIL`
-- `COMMITTER_DATE`
 
 ## Command overview
 
