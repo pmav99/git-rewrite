@@ -32,7 +32,11 @@ jobs:
 
       - script: |
           poetry run prospector git_rewrite.py
-        displayName: 'Run lint tests'
+        displayName: 'Run prospector'
+
+      - script: |
+          poetry run mypy git_rewrite.py
+        displayName: 'Run mypy'
 
       - script: |
           poetry run pytest tests
