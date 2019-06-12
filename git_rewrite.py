@@ -14,16 +14,28 @@ import sys
 import typing
 
 
+def run(cmd, **kwargs):
+    defaults = dict(
+        check=True,
+        stderr=subprocess.PIPE,
+        stdout=subprocess.PIPE,
+        universal_newlines=True,
+    )
+    defaults.update(kwargs)
+    proc = subprocess.run(shlex.split(cmd), **defaults)
+    return proc
+
+
 def get_hashes(root_hash: str) -> typing.List[str]:
     """ Return a list with the commits since `root_hash` """
     cmd = f"git rev-list --ancestry-path {root_hash}..HEAD"
-    proc = subprocess.run(shlex.split(cmd), check=True, capture_output=True, text=True)
+    proc = run(cmd)
     return [line for line in proc.stdout.splitlines()]
 
 
 def get_commit_data(commit: str) -> typing.List[str]:
     cmd = f"git show --format=fuller {commit}"
-    proc = subprocess.run(shlex.split(cmd), check=True, capture_output=True, text=True)
+    proc = run(cmd)
     return [line for line in proc.stdout.splitlines()[:5]]
 
 
@@ -103,14 +115,10 @@ class Commit:
 
     def rewrite(self):
         cmd = f"git cherry-pick {self.commit_hash}"
-        subprocess.run(
-            shlex.split(cmd), check=True, env=self.get_env(), capture_output=True
-        )
+        run(cmd)
         author = f"{self.author_name} <{self.author_email}>"
         cmd = f"git commit --amend --author '{author}' --date '{self.author_date}' --no-edit"
-        subprocess.run(
-            shlex.split(cmd), check=True, env=self.get_env(), capture_output=True
-        )
+        run(cmd, env=self.get_env())
 
 
 @dataclasses.dataclass
@@ -145,7 +153,7 @@ class History:
     def rewrite(self) -> None:
         branch_name = f"rewrite_{random.randint(1, 9999):04d}"
         cmd = f"git checkout -b {branch_name} {self.root_hash}"
-        subprocess.run(shlex.split(cmd), check=True)
+        run(cmd)
         for commit in self.commits:
             commit.rewrite()
 
