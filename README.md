@@ -1,3 +1,5 @@
+[![Build Status](https://dev.azure.com/otinanai90/git-rewrite/_apis/build/status/pmav99.git-rewrite?branchName=master)](https://dev.azure.com/otinanai90/git-rewrite/_build/latest?definitionId=4&branchName=master)
+
 git-rewrite
 ===========
 
