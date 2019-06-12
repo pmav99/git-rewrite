@@ -1,9 +1,54 @@
 git-rewrite
 ===========
 
-A helper script for rewriting git history.
+A script that helps you rewrite git history (but doesn't do it for you!)
 
-Supported fields:
+## Disclaimer
+
+*Use this at your own risk*
+
+(but is should be rather safe to do so)
+
+## Introduction
+
+Manually editing AUTHOR and COMMITTER data can be a pain. This script tries to make the
+process somewhat easier.
+
+Let's assume that we have the following repo and that we want to change the AUTHOR data
+for commits `C` and `D`
+
+```
+                                  HEAD
+                                   |
+                                   *
+A ---> B ---> C ---> D ---> E ---> F
+```
+
+
+Running this script will:
+
+1. checkout `B`
+2. create a new branch
+3. cherry-pick commits: `C`, `D`, `E` and `F`
+4. apply the changes we want to make with `git commit --amend`
+
+So, after running the script our repo should look like this:
+
+```
+A ---> B ---> C ---> D ---> E ---> F  (original-branch)
+       |
+       -----> C' --> D' --> E' --> F' (new-branch)
+```
+
+It is now up to us to ensure that everything is looking OK and actually overwrite
+history with e.g.:
+
+```
+git checkout original-branch
+git reset --hard new-branch
+```
+
+### Supported fields
 
 - `AUTHOR_NAME`
 - `AUTHOR_EMAIL`
@@ -12,7 +57,7 @@ Supported fields:
 - `COMMITTER_EMAIL`
 - `COMMITTER_DATE`
 
-## Quickstart
+## Command overview
 
 The script has two subcommands:
 
@@ -25,37 +70,7 @@ You are supposed to manually edit the file and make any changes you need (e.g. u
 
 After you are done, you just `apply` the changes to the repo.
 
-## Installation
-
-### Dependencies
-
-Python 3.7+
-
-There are no 3rd party dependencies.
-
-### just get the script
-
-You can use the script without installing with:
-
-```
-wget https://raw.githubusercontent.com/pmav99/git-rewrite/master/git_rewrite/__init__.py
--O git-rewrite
-chmod +x git-rewrite
-```
-
-### `pipx`
-
-The recommended installation method is [pipx](https://github.com/pipxproject/pipx).  More
-specifically, you can install `git-rewrite` for your user with:
-
-```
-pipx install --spec https://github.com/pmav99/git-rewrite/archive/master.zip git-rewrite
-```
-
-The above command will create a virtual environment in `~/.local/pipx/venvs/git-rewrite`
-and add the `git-rewrite` script in `~/.local/bin`.
-
-## How the `dump` works
+### How the `dump` works
 
 The `dump` script
 
@@ -100,10 +115,40 @@ The end result is something like this:
 
 ## How the `apply` works
 
-1. the script checkouts the root commit and creates a new branch with a random name.
+1. the script checkouts the root commit and creates a new branch.
 2. For each commit in the JSON file the script runs:
 
-    1. `git cherry-pick` it in order to bring the changeset into the new branch and change
-    the `COMMITTER` data.
-    2. `git commit --amend --author <...> --date <...>` in order to update the `AUTHOR`
-    data.
+    1. `git cherry-pick` it in order to bring the changeset into the new branch
+    2. `git commit --amend ...` in order to update the `AUTHOR` and the `COMMITTER`
+       data.
+
+## Installation
+
+### Dependencies
+
+Python 3.6+
+
+Note: If you use Python 3.7+ there are no 3rd party dependencies. If you use Python 3.6
+you need to also install the [dataclasses
+backport](https://github.com/ericvsmith/dataclasses).
+
+### No installation (just get the script)
+
+You can use the script without installing with:
+
+```
+wget https://raw.githubusercontent.com/pmav99/git-rewrite/master/git_rewrite.py -O git-rewrite
+chmod +x git-rewrite
+```
+
+### `pipx`
+
+The recommended installation method is [pipx](https://github.com/pipxproject/pipx).  More
+specifically, you can install `git-rewrite` for your user with:
+
+```
+pipx install --spec https://github.com/pmav99/git-rewrite/archive/master.zip git-rewrite
+```
+
+The above command will create a virtual environment in `~/.local/pipx/venvs/git-rewrite`
+and add the `git-rewrite` script in `~/.local/bin`.
