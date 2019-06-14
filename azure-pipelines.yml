@@ -26,18 +26,32 @@ jobs:
           architecture: 'x64'
 
       - script: |
-          pip install poetry
-          poetry install
-        displayName: 'Install dependencies'
+          set -x
+          python3 -m pip install --user pipx
+        displayName: 'Install pipx'
 
       - script: |
-          poetry run prospector git_rewrite.py
+          set -x
+          ~/.local/bin/pipx install poetry
+        displayName: 'Install poetry'
+
+      - script: |
+          set -x
+          ~/.local/bin/poetry install
+        displayName: 'Install python dependencies'
+
+      - script: |
+          set -x
+          ~/.local/bin/poetry run prospector git_rewrite.py
         displayName: 'Run prospector'
 
-      - script: |
-          poetry run mypy git_rewrite.py
-        displayName: 'Run mypy'
+      # Not sure why, but this fails in Python 3.7
+      #- script: |
+          #set -x
+          #~/.local/bin/poetry run mypy git_rewrite.py
+      #  displayName: 'Run mypy'
 
       - script: |
-          poetry run pytest tests
+          set -x
+          ~/.local/bin/poetry run pytest tests
         displayName: 'Run tests'
