@@ -1,4 +1,5 @@
-[![Build Status](https://dev.azure.com/otinanai90/git-rewrite/_apis/build/status/pmav99.git-rewrite?branchName=master)](https://dev.azure.com/otinanai90/git-rewrite/_build/latest?definitionId=4&branchName=master)
+![Azure Build status](https://img.shields.io/azure-devops/build/pmav99/git-rewrite/2.svg?style=plastic)
+<!--![Azure DevOps coverage](https://img.shields.io/azure-devops/coverage/pmav99/git-rewrite/2.svg?style=plastic)-->
 
 git-rewrite
 ===========
