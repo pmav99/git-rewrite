@@ -2,10 +2,13 @@
 
 import functools
 import json
+import pathlib
 import shlex
 import subprocess
 
 import pytest
+
+from git_rewrite import run
 
 
 JOHN_DOE = "John Doe"
@@ -14,31 +17,26 @@ JANE_DOE = "Jane Doe"
 JANE_DOE_EMAIL = "jane_doe@example.com"
 
 
-def test_git_rewrite_is_installed():
+def test_git_rewrite_is_installed() -> None:
     try:
         subprocess.run(shlex.split("git-rewrite --help"))
     except FileNotFoundError:
         pytest.exit("You need to install git-rewrite before running the tests")
 
 
-def run(cmd, **kwargs):
-    proc = subprocess.run(shlex.split(cmd), check=True, **kwargs)
-    return proc
+# def run(cmd: str, **kwargs) -> subprocess.CompletedProcess:
+    # proc = subprocess.run(shlex.split(cmd), check=True, **kwargs)
+    # return proc
 
 
-def get_root_commit(repo_path):
-    proc = run(
-        "git rev-list --max-parents=0 HEAD",
-        stdout=subprocess.PIPE,
-        universal_newlines=True,
-        cwd=repo_path,
-    )
+def get_root_commit(repo_path: pathlib.Path) -> str:
+    proc = run("git rev-list --max-parents=0 HEAD", stdout=subprocess.PIPE, universal_newlines=True, cwd=repo_path)
     root_commit = proc.stdout.strip()
     return root_commit
 
 
 @pytest.fixture
-def linear_repo(tmp_path):
+def linear_repo(tmp_path: pathlib.Path) -> pathlib.Path:
     run("git init", cwd=tmp_path)
     run(f"git config user.name '{JOHN_DOE}'", cwd=tmp_path)
     run(f"git config user.email '{JOHN_DOE_EMAIL}'", cwd=tmp_path)
@@ -49,7 +47,7 @@ def linear_repo(tmp_path):
     return tmp_path
 
 
-def test_idempotency(linear_repo):
+def test_idempotency(linear_repo: pathlib.Path) -> None:
     run_repo = functools.partial(run, cwd=linear_repo)
     root_commit = get_root_commit(linear_repo)
     original_history = linear_repo / "original_history.json"
@@ -58,8 +56,7 @@ def test_idempotency(linear_repo):
     run_repo(f"git-rewrite apply --input {original_history}")
     run_repo(f"git-rewrite dump --output {modified_history} {root_commit}")
     commit_pairs = zip(
-        json.loads(original_history.read_text())["commits"],
-        json.loads(modified_history.read_text())["commits"],
+        json.loads(original_history.read_text())["commits"], json.loads(modified_history.read_text())["commits"]
     )
     for original, modified in commit_pairs:
         print(original)
@@ -71,7 +68,7 @@ def test_idempotency(linear_repo):
         assert original["committer_date"] == modified["committer_date"]
 
 
-def test_change_author_and_committer(linear_repo):
+def test_change_author_and_committer(linear_repo: pathlib.Path) -> None:
     run_repo = functools.partial(run, cwd=linear_repo)
     root_commit = get_root_commit(linear_repo)
     original_history = linear_repo / "original_history.json"
