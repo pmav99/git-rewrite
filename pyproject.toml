@@ -6,7 +6,7 @@ authors = ["Panos Mavrogiorgos <pmav99@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.6"
-dataclasses = { version = "^0.6", python = "~3.6" }
+pydantic = "^1.7.3"
 
 [tool.poetry.dev-dependencies]
 pre-commit = "^1.17"

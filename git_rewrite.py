@@ -3,13 +3,14 @@
 """ Rewrite git history """
 
 import argparse
-import dataclasses
 import json
 import random
 import shlex
 import subprocess
 import sys
 import typing
+
+import pydantic
 
 __version__ = "0.2.1"
 
@@ -77,8 +78,7 @@ def parse_date(git_line: str):
     return date
 
 
-@dataclasses.dataclass
-class Commit:
+class Commit(pydantic.BaseModel):
     commit_hash: str
     author_name: str
     author_email: str
@@ -121,8 +121,7 @@ class Commit:
         run(cmd, env=self.get_env())
 
 
-@dataclasses.dataclass
-class History:
+class History(pydantic.BaseModel):
     root_hash: str
     commits: typing.List[Commit]
 
@@ -149,7 +148,7 @@ class History:
     def dump(self, filename: str = "history.json") -> None:
         # XXX should we use "x" here?
         with open(filename, "w") as fd:
-            json.dump(dataclasses.asdict(self), fd, indent=2)
+            json.dump(self.dict(), fd, indent=2)
 
     def rewrite(self, branch_name=None) -> None:
         if branch_name is None:
