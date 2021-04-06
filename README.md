@@ -47,7 +47,7 @@ Running this script will:
 1. checkout `B`
 2. create a new branch
 3. cherry-pick commits: `C`, `D`, `E` and `F`
-4. apply the changes we want to make with `git commit --amend`
+4. edit `AUTHOR` and `COMMITER` data on each commit with `git commit --amend`
 
 So, after running the script our repo should look like this:
 
@@ -63,7 +63,7 @@ history with e.g.:
 ```
 git checkout original-branch
 git reset --hard new-branch
-git push --force
+git push
 ```
 
 ## Installation
@@ -86,10 +86,10 @@ The script has two subcommands:
 - `git-rewrite dump`
 - `git-rewrite apply`
 
+Both are required.
+
 The `dump` step saves the commit data of the current history to a JSON file.
-
 You are supposed to manually edit the file and make any changes you need (e.g. using `sed`).
-
 After you are done, you just `apply` the changes to the repo.
 
 ### How the `dump` works
