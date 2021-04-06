@@ -1,5 +1,4 @@
-![Azure Build status](https://img.shields.io/azure-devops/build/pmav99/git-rewrite/2.svg?style=plastic)
-<!--![Azure DevOps coverage](https://img.shields.io/azure-devops/coverage/pmav99/git-rewrite/2.svg?style=plastic)-->
+[![tests](https://github.com/pmav99/git-rewrite/actions/workflows/test.yml/badge.svg)](https://github.com/pmav99/git-rewrite/actions/workflows/test.yml)
 
 git-rewrite
 ===========
