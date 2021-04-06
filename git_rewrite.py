@@ -38,13 +38,13 @@ def get_hashes(root_hash: str) -> List[str]:
     """ Return a list with the commits since `root_hash` """
     cmd = f"git rev-list --ancestry-path {root_hash}..HEAD"
     proc = run(cmd)
-    return [line for line in proc.stdout.splitlines()]
+    return proc.stdout.splitlines()
 
 
 def get_commit_data(commit: str) -> List[str]:
     cmd = f"git show --format=fuller {commit}"
     proc = run(cmd)
-    return [line for line in proc.stdout.splitlines()[:5]]
+    return proc.stdout.splitlines()[:5]
 
 
 def parse_name(git_line: str) -> str:
