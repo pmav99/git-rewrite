@@ -66,6 +66,19 @@ git reset --hard new-branch
 git push --force
 ```
 
+## Installation
+
+The recommended installation method is [pipx](https://github.com/pipxproject/pipx).  More
+specifically, you can install `git-rewrite` for your user with:
+
+```
+pipx install --spec https://github.com/pmav99/git-rewrite/archive/master.zip git-rewrite
+```
+
+The above command will create a virtual environment in `~/.local/pipx/venvs/git-rewrite`
+and add the `git-rewrite` script in `~/.local/bin`.
+
+
 ## Command overview
 
 The script has two subcommands:
@@ -122,7 +135,7 @@ The end result is something like this:
 
 ```
 
-## How the `apply` works
+### How the `apply` works
 
 1. the script checkouts the root commit and creates a new branch.
 2. For each commit in the JSON file the script runs:
@@ -130,17 +143,3 @@ The end result is something like this:
     1. `git cherry-pick` it in order to bring the changeset into the new branch
     2. `git commit --amend ...` in order to update the `AUTHOR` and the `COMMITTER`
        data.
-
-## Installation
-
-### `pipx`
-
-The recommended installation method is [pipx](https://github.com/pipxproject/pipx).  More
-specifically, you can install `git-rewrite` for your user with:
-
-```
-pipx install --spec https://github.com/pmav99/git-rewrite/archive/master.zip git-rewrite
-```
-
-The above command will create a virtual environment in `~/.local/pipx/venvs/git-rewrite`
-and add the `git-rewrite` script in `~/.local/bin`.
