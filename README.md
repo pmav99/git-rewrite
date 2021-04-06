@@ -133,23 +133,6 @@ The end result is something like this:
 
 ## Installation
 
-### Dependencies
-
-Python 3.6+
-
-Note: If you use Python 3.7+ there are no 3rd party dependencies. If you use Python 3.6
-you need to also install the [dataclasses
-backport](https://github.com/ericvsmith/dataclasses).
-
-### No installation (just get the script)
-
-You can use the script without installing with:
-
-```
-wget https://raw.githubusercontent.com/pmav99/git-rewrite/master/git_rewrite.py -O git-rewrite
-chmod +x git-rewrite
-```
-
 ### `pipx`
 
 The recommended installation method is [pipx](https://github.com/pipxproject/pipx).  More
