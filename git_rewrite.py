@@ -2,7 +2,7 @@
 
 """ Rewrite git history """
 
-from __future__ import annotations
+# from __future__ import annotations
 
 import argparse
 import json
@@ -95,7 +95,7 @@ class Commit(pydantic.BaseModel):
     committer_date: str
 
     @classmethod
-    def from_hash(cls, commit_hash: str) -> Commit:
+    def from_hash(cls, commit_hash: str) -> "Commit":
         """ Return a `Commit` object from a git commit hash """
         commit_data = get_commit_data(commit_hash)
         instance = cls(
@@ -133,14 +133,14 @@ class History(pydantic.BaseModel):
     commits: List[Commit]
 
     @classmethod
-    def since_hash(cls, root_hash: str) -> History:
+    def since_hash(cls, root_hash: str) -> "History":
         """ Return a `History` object containing `Commit`s since `root_hash` """
         commits=[Commit.from_hash(commit_hash) for commit_hash in get_hashes(root_hash)]
         history = cls(root_hash=root_hash, commits=commits)
         return history
 
     @classmethod
-    def from_file(cls, filename: str = "history.json") -> History:
+    def from_file(cls, filename: str = "history.json") -> "History":
         with open(filename, "r") as fd:
             data = json.load(fd)
 
